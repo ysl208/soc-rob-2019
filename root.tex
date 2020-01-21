@@ -290,6 +290,24 @@ A planner can then be used to generate a solution to the problem for any number 
 	\label{fig:framework}
 \end{figure*}
 
+\section{Related Work} \label{sec:relatedwork}
+End-user robot programming has been addressed previously for industrial robots to be programmed by non-robotics domain experts, where users specify and modify existing plans for robots to adapt to new scenarios \cite{paxton2017costar,perzylo2016intuitive,stenmark2017simplified}.
+For example, Paxton \etal \cite{paxton2017costar} use Behaviour Trees to represent task plans that are explicitly defined by the user and can be modified to adapt to new tasks.
+In our work we argue for the use of task planners to automatically generate plans for new scenarios, rather than have the user manually modify them.
+
+Previous work has addressed knowledge engineering tools for constructing planning domains but usually require PDDL experts (PDDL Studio \cite{plch2012inspect}), or common knowledge in software engineering (GIPO \cite{simpson2007planning}, itSIMPLE \cite{vaquero2013itsimple}).
+There has been previous work on integrating task planning with robotic systems \cite{cashmore2015rosplan,kuhner2018closed}, learning high-level actions through natural language instructions \cite{she2014teaching} or learning preconditions and effects of actions to be used in planning \cite{jetchev2013learning,konidaris2018fromSkills,ugur2015bottom}.
+However, in all of these cases, the robot is provided with a fixed set of low-level motor skills.
+In our approach, we do not provide the robot with any predefined actions but enable users to teach both low- and high-level actions from scratch.
+
+PbD has been commonly applied to allow end-users to teach robots new actions by demonstration.
+Alexandrova \etal \cite{alexandrova2014robot} created an end-user programming framework with an interactive action visualisation allowing the user to teach new actions from single demonstrations but do not reuse them with a task planner.
+Most closely related to our approach is the work by Abdo \etal \cite{abdo2013learning} where manipulation actions are learned from kinesthetic demonstrations and reused with task planners.
+However, the approach requires 5-10 demonstrations to learn action conditions which becomes tedious and impractical if several actions need to be taught.
+In this work we argue for having the user act as the expert by letting them correct inferred action conditions, thus allowing a new action to be learned from a single demonstration.
+We further provide a graphical interface that allows users to create new actions and address previously unseen problems that can be solved with task planners.
+
+
 \section{iRoPro - interactive Robot Programming} \label{sec:approach} 
 In our previous work \cite{liang2017a} we proposed iRoPro, an interactive Robot Programming framework that allows end-users to teach robots new actions that can be reused with task planners.
 The framework consists of the following three aspects (\fig{fig:framework}): 
@@ -564,7 +582,7 @@ All 11 users were satisfied with the programming process and Baxter's ability to
 The majority of the users had issues formulating the logical properties used for preconditions and effects. 
 In the first experiment (\sect{sec:Exp1}), users had difficulties formulating certain conditions in the planning language (\eg \texttt{(stackable ball cube)}), but stated equivalent ones (\eg \textit{`only place the ball, if it is stackable on the cube'}).
 Similarly, in the second experiment (\sect{sec:Exp2}), users formulated missing preconditions (\eg \textit{`position B is empty'}) with other equivalent conditions (\eg \textit{`do not place the object on position B, if it is occupied'}). 
-This means that users should be provided with predefined conditions that they can choose from, instead of letting them formulate their own.
+% This means that users should be provided with predefined conditions that they can choose from, instead of letting them formulate their own.
 
 Some of the users made wide assumptions about the robot's capabilities. 
 In the second experiment, when both arrival and departure positions were occupied, 5 (or 50\%) of the users expected Baxter to consider the occupied position, even though the condition was not mentioned in its action model.
@@ -702,7 +720,7 @@ Even though Group 1 performed slightly better in the pre-study test than Group 2
 	\label{table:performance}
 	\begin{center}
 		\begin{tabular}{r|rr|rr}
-			& \multicolumn{2}{c}{\textbf{Main tasks (in min)}} & \multicolumn{2}{c}{\textbf{PT score (out of 7)}} \\
+			& \multicolumn{2}{c}{\textbf{Main tasks (in min)}} & \multicolumn{2}{c}{\textbf{Pre-score (out of 7)}} \\
 			& AVG                & STD                & AVG                   & STD                   \\ \hline
 			no experience  & 43.6               & 5.37               & 5.8                   & 0.95                  \\
 			non-CS  & 36.6               & 7.46               & 6.2                   & 0.55                  \\
@@ -742,7 +760,8 @@ Overall, both user studies received positive responses.
 The system underwent four phases of improvement, allowing us to refine the system functionalities, GUI and user instruction methods:
 \begin{enumerate}
 	\item {\textbf{Initial prototype:}
-		Based on the feedback we received on our initial prototype experts in experimental evaluation of systems that involve human-machine interaction \cite{mandran2018traceable}, we changed the flow for introducing the system to a novice user as it included a lot of new information (\eg PbD and Automated planning concepts) that they were not familiar with.
+		Based on the feedback received on our initial prototype by domain experts %experts in experimental evaluation of systems that involve human-machine interaction \cite{mandran2018traceable}
+		, we changed the flow for introducing the system to novice users as it included a lot of new information (\eg PbD and Automated planning concepts) that they were not familiar with.
 	}
 	\item {\textbf{Pre-tests with 3 users:}
 		We ran pre-tests with 3 users who have never seen the system before and further improved the experiment flow (\eg create an action for one object at a time).
@@ -780,28 +799,10 @@ Limitations and interesting extensions of our work are as follows:
 	It could be interesting to include and learn predicates to capture more complex domains such as object orientation \cite{li2016learning}.
 \end{enumerate}
 
-\section{Related Work} \label{sec:relatedwork}
-End-user robot programming has been addressed previously for industrial robots to be programmed by non-robotics domain experts, where users specify and modify existing plans for robots to adapt to new scenarios \cite{paxton2017costar,perzylo2016intuitive,stenmark2017simplified}.
-For example, Paxton \etal \cite{paxton2017costar} use Behaviour Trees to represent task plans that are explicitly defined by the user and can be modified to adapt to new tasks.
-In our work we argue for the use of task planners to automatically generate plans for new scenarios, rather than have the user manually modify them.
-
-Previous work has addressed knowledge engineering tools for constructing planning domains but usually require PDDL experts (PDDL Studio \cite{plch2012inspect}, or common knowledge in software engineering (GIPO \cite{simpson2007planning}, itSIMPLE \cite{vaquero2013itsimple}).
-There has been previous work on integrating task planning with robotic systems \cite{cashmore2015rosplan,kuhner2018closed}, learning high-level actions through natural language instructions \cite{she2014teaching}) or learning preconditions and effects of actions to be used in planning \cite{jetchev2013learning,konidaris2018fromSkills,ugur2015bottom}.
-However, in all of these cases, the robot is provided with a fixed set of low-level motor skills.
-In our approach, we do not provide the robot with any predefined actions but enable users to teach both low- and high-level actions from scratch.
-
-PbD has been commonly applied to allow end-users to teach robots new actions by demonstration.
-Alexandrova \etal \cite{alexandrova2014robot} created an end-user programming framework with an interactive action visualisation allowing the user to teach new actions from single demonstrations but do not reuse them with a task planner.
-Most closely related to our approach is the work by Abdo \etal \cite{abdo2013learning} where manipulation actions are learned from kinesthetic demonstrations and reused with task planners.
-However, the approach requires 5-10 demonstrations to learn action conditions which becomes tedious and impractical if several actions need to be taught.
-In this work we argue for having the user act as the expert by letting them correct inferred action conditions, thus allowing a new action to be learned from a single demonstration.
-We further provide a graphical interface that allows users to create new actions and address previously unseen problems that can be solved with task planners.
-
-
 \section{Conclusion} 
 \label{sec:conclusion}
 We presented iRoPro, an interactive Robot Programming system that allows simultaneous teaching of low- and high-level actions by demonstration.
-The robot reuses the actions with a task planner to generate solutions to complex tasks that go beyond the demonstrated action.
+The robot reuses the actions with a task planner to generate solutions to tasks that go beyond the demonstrated action.
 We conducted pre-design experiments to evaluate the feasibility of the proposed framework and involved concepts in PbD and Automated Planning.
 Then, we implemented the system on a Baxter robot and showed its generalisability on six benchmark tasks by teaching a minimal set of primitive actions that were reused for all tasks.
 We demonstrated its usability with a user study where participants with diverse educational backgrounds and programming levels learned how to use the system in less than an hour.
