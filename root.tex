@@ -148,10 +148,10 @@ We combine Programming by Demonstration and Automated Planning techniques to all
 The actions are generalised and reused with a task planner to solve previously unseen problems defined by the user.
 We implement iRoPro as an end-to-end system on a Baxter Research Robot to simultaneously teach low- and high-level actions by demonstration that the user can customise via a Graphical User Interface to adapt to their specific use case.
 To evaluate the feasibility of our approach, we first conducted pre-design experiments to better understand the user's adoption of involved concepts and the proposed robot programming process.
-We compare results with post-design experiments, where we conducted a user study (N=21) to validate the usability of our approach with real end-users.
+We compare results with post-design experiments, where we conducted a user study to validate the usability of our approach with real end-users.
 Overall, we showed that users with different programming levels and educational backgrounds can easily learn and use iRoPro and its robot programming process.
 
-\keywords{End-User Robot Programming \and Programming by Demonstration \and Automated Planning \and Humn-Robot Interaction}
+\keywords{End-User Robot Programming \and Programming by Demonstration \and Automated Planning \and Human-Robot Interaction}
 % \PACS{PACS code1 \and PACS code2 \and more}
 % \subclass{MSC code1 \and MSC code2 \and more}
 \end{abstract}
@@ -162,16 +162,17 @@ Despite the ongoing advances in Robotics and A.I., it is extremely challenging t
 Instead of developing robots for domain-specific tasks, a more flexible solution is to have them learn new actions directly from end-users who can customise the robot for their specific application.
 Programming by Demonstration (PbD) \cite{billard2008robot} is a popular approach for end-users to teach robots actions in an intuitive way by taking demonstrations as input and inferring a policy for the task.
 However, PbD solutions usually require users to teach robots an action sequence to achieve a certain goal.
-If the goal changes, the user has to teach the robot a new sequence.
+If the goal changes, the user has to teach the robot a new sequence.\\
 
 Consider the Tower of Hanoi, a puzzle consisting of three pegs and a number of differently-sized disks, stacked on one peg in descending order, with the largest peg at the bottom.
 The goal is to move the entire stack from one peg to another, by moving one disk at a time and only to a larger disk or an empty peg. 
 The solution is different depending on the given number of disks.
 If we want to teach a robot to solve this problem, it would be infeasible to demonstrate the solution each time.
-A more efficient approach would be to teach the robot the primitive action of moving a disk, associate rules or \textit{conditions} to this action (\eg smaller disks can only be placed on top of larger ones), and have the robot generate an optimal solution using a task planner known as Automated Planning \cite{ghallab2004automated}.
+A more efficient approach would be to teach the robot the primitive action of moving a disk, associate rules or \textit{conditions} to this action (\eg smaller disks can only be placed on top of larger ones), and have the robot generate an optimal solution.\\
 
+Different approaches to generate robot actions have been proposed \cite{8523933}. The {\it reactive} approach is characterized by independent and concurrent basic behaviours that generate the robot global behaviour. The robot sensors are the input of the basic behaviours that, in turn, activate/inhibit the robot effectors. This approach is effective but predicting the robot global behaviour is difficult since no explicit action model is used. The {\it deliberative} approach consists of tree steps: perception of the world state, plan making and action execution in order to change the world state. Plan making also known as Automated Planning \cite{ghallab2004automated} is based on an explicit action model encoded in a symbolic planning language. This action model is used by a task planner to compute action sequences achieving the expected robot behaviours.
 
-Our research argues for teaching robots primitive actions, instead of entire action sequences, and delegating the logical reasoning process of finding a solution to task planners.
+Our research argues for teaching robots primitive actions, instead of entire action sequences, and delegating the logical reasoning process of finding a solution to a task planner.
 To this end, we present iRoPro, an interactive Robot Programming framework that allows efficient programming of both \textit{how} an action is performed (low-level action representation) and \textit{when} it can be applied (high-level), while generalising both aspects to new scenarios.
 The low-level representation allows the robot to execute the motion trajectory, while the high-level representation allows it to be used with a task planner.
 
@@ -194,7 +195,7 @@ Biggs \etal \cite{Biggs2003} defined two main categories, manual and automatic p
 
 In manual programming, the user encodes the robot's behaviour via text-based systems using procedural languages such as python, C++, java or graphical systems that use a graph, flow-chart or diagram \cite{lego2003,fraser2013blockly,majed2014learn}.
 For automatic programming techniques, robots generate their behaviour from data provided as input to the system. 
-We differentiate between Machine Learning or Deep Learning (DL) \cite{schmidhuber2015deep}, where the robot is provided a large amount of labelled or unlabelled data, Reinforcement Learning \cite{kaelbling1996reinforcement,gosavi2009reinforcement}, where the robot gathers the data by exploring the environment, and Programming by Demonstration (PbD) \cite{billard2008robot,argall2009survey}, where the robot learns from example demonstrations provided by a human teacher.
+We differentiate between Deep Learning (DL) \cite{schmidhuber2015deep}, where the robot is provided a large amount of labelled or unlabelled data, Reinforcement Learning \cite{kaelbling1996reinforcement,gosavi2009reinforcement}, where the robot gathers the data by exploring the environment, and Programming by Demonstration (PbD) \cite{billard2008robot,argall2009survey}, where the robot learns from example demonstrations provided by a human teacher.
 While DL approaches allow the robot to learn skills autonomously, they often require programming and domain experts to prepare the system input (\eg label or preprocess data, define policy and reward functions). 
 Similarly, reinforcement learning generally requires long training times to gather enough data to learn a skill.
 
@@ -247,6 +248,7 @@ An example of a planning domain in PDDL can be seen in \fig{fig:pddl}.
 The Tower of Hanoi problem could be defined in terms of a planning problem, where the domain consists of 3 pegs and a number of disks, and the action is defined as moving a disk from one peg to another, with associated rules as preconditions and effects.
 A planner can then be used to generate a solution to the problem for any number of disks.
 
+From now on, the word "action" will refer to an action as defined in automated planning. It is worth noting that the predicates used in the planning domains are freely defined by the persons encoding those domains. However, creating a standard for knowledge representation and reasoning in autonomous robotics is a basic requirement to allow the interoperability of the robotic systems, the communication between robots and humans etc. based on a common vocabulary along with clear and concise definitions. The IEEE Standard Association's Robotics and Automation Society recognized this need, and a set of ontologies have been developped \cite{8172300}.
 \begin{figure}
 	\centering
 	\includegraphics[width=\linewidth]{Fig3.pdf}
@@ -469,7 +471,7 @@ The user can have the robot re-execute the taught action immediately in order to
 The user can modify the action properties if the inference was not correct.
 To teach more actions, the user can either create a new one or copy a previously taught action and modify it.
 
-\paragraph{Problems.} New planning problems can be created if at least one action exists.
+\paragraph{Problems.} New planning problems can be generated if at least one action exists.
 To create a problem, the robot first detects the existing landmarks and infers their types and initial states.
 The user can modify them if the inference was not correct.
 Then, the user enters predicates that describe the goal states to achieve.
@@ -495,7 +497,7 @@ We first conducted two pre-design experiments to evaluate the usability of the p
 They consisted of qualitative user studies to respond to the following questions:
 \begin{enumerate}
 	\item[\textbf{Q1}] How do non-expert users adopt the Automated Planning language with its action model representation? (\sect{sec:Exp1})
-	\item[\textbf{Q2}] Can users teach a robot action models for Automated Planning using the proposed framework? (\sect{sec:Exp2})
+	\item[\textbf{Q2}] Can users teach a robot action model for Automated Planning using the proposed framework? (\sect{sec:Exp2})
 \end{enumerate}
 
 In both experiments we particularly focused on elements to assess the user's understanding of action models such as defining their preconditions and effects.
@@ -538,10 +540,10 @@ At the end, participants were given a questionnaire related to their experience 
 \subsection{Acceptance of the Robot Programming Process} \label{sec:Exp2}
 In this experiment, we addressed the following question:
 \begin{enumerate}
-	\item[\textbf{Q2}] Can users teach a robot action models for Automated Planning using the proposed framework?
+	\item[\textbf{Q2}] Can users teach a robot action model for Automated Planning using the proposed framework?
 \end{enumerate}
 	Users (N=11)\footnote{All participants were different from the first experiment} with different programming experience were presented a simulated implementation of iRoPro and had to teach action models by kinesthetically manipulating a Baxter robot. 
-	Users were instructed to teach an primitive action by demonstration and assign preconditions and effects.
+	Users were instructed to teach a primitive action by demonstration and assign preconditions and effects.
 	The goal was to assess the framework's usability and the user's difficulties encountered during the programming process.
 	At the end, participants were given a questionnaire related to their experience, their perceived understanding of the presented concepts and the usability of the framework.
 	In the following sections we briefly outline the experimental setup, measurements and results of the experiment.
@@ -760,8 +762,8 @@ Overall, both user studies received positive responses.
 The system underwent four phases of improvement, allowing us to refine the system functionalities, GUI and user instruction methods:
 \begin{enumerate}
 	\item {\textbf{Initial prototype:}
-		Based on the feedback received on our initial prototype by domain experts %experts in experimental evaluation of systems that involve human-machine interaction \cite{mandran2018traceable}
-		, we changed the flow for introducing the system to novice users as it included a lot of new information (\eg PbD and Automated planning concepts) that they were not familiar with.
+		Based on the feedback received on our initial prototype by domain experts, %experts in experimental evaluation of systems that involve human-machine interaction \cite{mandran2018traceable}
+		we changed the flow for introducing the system to novice users as it included a lot of new information (\eg PbD and Automated planning concepts) that they were not familiar with.
 	}
 	\item {\textbf{Pre-tests with 3 users:}
 		We ran pre-tests with 3 users who have never seen the system before and further improved the experiment flow (\eg create an action for one object at a time).
@@ -797,6 +799,7 @@ Limitations and interesting extensions of our work are as follows:
 	\item Due to the different grippers, we did not program actions that use both arms (\eg carrying a tray). A possible extension would be to include a better motion and task planning system in order to allow executing both arms simultaneously while avoiding self-collision.
 	\item We only included a minimal set of predicates (\sect{sec:highlevel}) that we deemed intuitive and useful for object manipulation tasks.
 	It could be interesting to include and learn predicates to capture more complex domains such as object orientation \cite{li2016learning}.
+	\item iRoPro can easily be adapted to different kinds of robots: the source code is available online (\sect{sec:implementation}) and developed in ROS, which is a popular framework facilitating the interoperability of a wide variety of robotic platforms. Moreover, the PDDL language used to encode planning domains is platform-independent, and a standard used to benchmark task planners. However, we need to push our standardization effort further by bridging the gap between PDDL and IEEE Standard Ontologies for Robotics and Automation \cite{8172300}.
 \end{enumerate}
 
 \section{Conclusion} 
@@ -859,7 +862,7 @@ This will require more complex planning domains to consider planning between rob
 
 
 \begin{acknowledgements}
-If you'd like to thank Nadine Mandran for her support and guidance during for the experimental studies.
+The authors would like to thank Nadine Mandran, research engineer at the Laboratoire d'Informatique de Grenoble, for her support and guidance during for the experimental studies.
 \end{acknowledgements}
 
 
